@@ -18,6 +18,7 @@ public class QuizActivity extends AppCompatActivity {
     private Button mNextButton;
     private TextView mQuestionTextView;
 
+    private static final String KEY_INDEX = "index";
     private int mCurrentIndex = 0;
 
     private Question[] mQuestionBank = new Question[]{
@@ -29,6 +30,13 @@ public class QuizActivity extends AppCompatActivity {
             new Question(R.string.question_asia, true),
 
     };
+//overiding method, in order to save current index of question when phone is rotated.
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        Log.i(TAG, "onSaveInstanceState");
+        savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
+    }
 
     @Override
     public void onStart() {
@@ -98,6 +106,12 @@ public class QuizActivity extends AppCompatActivity {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                 updateQuestion();
             } });
+
+//if instance is not null then
+        if (savedInstanceState != null) {
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
+        }
+
         updateQuestion();
     }
 
