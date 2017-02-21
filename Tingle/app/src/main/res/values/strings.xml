@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Tingle</string>
+    <string name="headline">Last added</string>
+    <string name="what_thing">What Thing?</string>
+    <string name="where">Where?</string>
+    <string name="last_thing">Last Thing</string>
+    <string name="Add_Btn">ADD NEW THING</string>
+
+
+
+</resources>
