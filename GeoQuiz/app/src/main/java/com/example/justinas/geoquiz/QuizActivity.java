@@ -1,6 +1,8 @@
 package com.example.justinas.geoquiz;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,10 +18,13 @@ public class QuizActivity extends AppCompatActivity {
     private Button mTrueButton;
     private Button mFalseButton;
     private Button mNextButton;
+    private Button mCheatButton;
     private TextView mQuestionTextView;
 
     private static final String KEY_INDEX = "index";
     private int mCurrentIndex = 0;
+    private static final int REQUEST_CODE_CHEAT = 0;
+    private boolean mIsCheater;
 
     private Question[] mQuestionBank = new Question[]{
 
@@ -39,35 +44,6 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart() called");
-    }
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause() called");
-    }
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume() called");
-    }
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop() called");
-    }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "onDestroy() called");
-    }
-
-
-
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -76,6 +52,21 @@ public class QuizActivity extends AppCompatActivity {
         //Initilize text view
         mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
 
+
+        mCheatButton = (Button) findViewById(R.id.cheat_button);
+
+        mCheatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start CheatActivity
+                boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
+                Intent i = CheatActivity.newIntent(QuizActivity.this, answerIsTrue);
+
+                //When you expect something back from another activy, you have to use startAcitivityForResult
+                //else use startActivity.
+                startActivityForResult(i, REQUEST_CODE_CHEAT);
+            }
+        });
 
 
         // Initialization of true button, and below of listiner
@@ -104,6 +95,7 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                mIsCheater = false;
                 updateQuestion();
             } });
 
@@ -113,6 +105,16 @@ public class QuizActivity extends AppCompatActivity {
         }
 
         updateQuestion();
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return; }
+        if (requestCode == REQUEST_CODE_CHEAT) {
+            if (data == null) {
+                return; }
+            mIsCheater = CheatActivity.wasAnswerShown(data);
+        }
     }
 
 
@@ -126,13 +128,18 @@ public class QuizActivity extends AppCompatActivity {
     private void checkAnswer(boolean userPressedTrue){
         boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
         int messageResId = 0;
-        if (userPressedTrue == answerIsTrue) {
-            messageResId = R.string.correct_toast;
+
+        if (mIsCheater) {
+            messageResId = R.string.judgment_toast;
         } else {
-            messageResId = R.string.incorrect_toast;
+            if (userPressedTrue == answerIsTrue) {
+                messageResId = R.string.correct_toast;
+            } else {
+                messageResId = R.string.incorrect_toast;
+            }
         }
-        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
-                .show();
+            Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
+                    .show();
 
     }
 
