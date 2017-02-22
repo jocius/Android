@@ -78,7 +78,14 @@
         android:id="@+id/add_button"
         android:text="@string/Add_Btn"
         />
-
+    <!-- Button to open list activity-->
+    <Button
+        android:layout_width="123dp"
+        android:layout_height="wrap_content"
+        android:background="#00ff19"
+        android:id="@+id/showList"
+        android:text="@string/show_Btn"
+        />
 
 </LinearLayout>
 
