@@ -2,15 +2,21 @@ package com.example.justinas.tingle;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 /**
  * Created by justinas on 2/23/17.
  */
 
-public class TingleFragment {
+public class TingleFragment extends Fragment {
 
     private Button addThing, showThing;
 
@@ -19,33 +25,40 @@ public class TingleFragment {
     private static ThingsDB thingsDB;
 
 
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tingle);
-        thingsDB= ThingsDB.get(this);
+        thingsDB= ThingsDB.get(getActivity());
+
+    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_tingle, container, false);
 
         //Accessing GUI element
-        lastAdded= (TextView) findViewById(R.id.last_thing);
+        lastAdded= (TextView) v.findViewById(R.id.last_thing);
         updateUI();
 
 
-        showThing = (Button) findViewById(R.id.showList);
+        showThing = (Button) v.findViewById(R.id.showList);
         showThing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(TingleActivity.this, ListActivity.class);
+                Intent i = new Intent(getActivity(), ListActivity.class);
                 startActivity(i);
             }
         });
 
 
 
-        addThing= (Button) findViewById(R.id.add_button);
+        addThing= (Button) v.findViewById(R.id.add_button);
 // Textfields for describing a thing
-        newWhat= (TextView) findViewById(R.id.what_text);
-        newWhere= (TextView) findViewById(R.id.where_text);
+        newWhat= (TextView) v.findViewById(R.id.what_text);
+        newWhere= (TextView) v.findViewById(R.id.where_text);
         // view products click event
         addThing.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +75,8 @@ public class TingleFragment {
             }
         });
 
+
+        return v;
     }
 
 
