@@ -1,13 +1,17 @@
 package com.example.justinas.tingle;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class TingleActivity extends AppCompatActivity { // GUI variables
+/**
+ * Created by justinas on 2/23/17.
+ */
+
+public class TingleFragment {
+
     private Button addThing, showThing;
 
     private TextView lastAdded;
@@ -45,23 +49,23 @@ public class TingleActivity extends AppCompatActivity { // GUI variables
         // view products click event
         addThing.setOnClickListener(new View.OnClickListener() {
             @Override
-        public void onClick(View view) {
-            if ((newWhat.getText().length()>0) && (newWhere.getText().length()>0 )){
+            public void onClick(View view) {
+                if ((newWhat.getText().length()>0) && (newWhere.getText().length()>0 )){
 
 
-                thingsDB.addThing(new Thing( newWhat.getText().toString(), newWhere.getText().toString()));
+                    thingsDB.addThing(new Thing( newWhat.getText().toString(), newWhere.getText().toString()));
 
-                newWhat.setText("");
-                newWhere.setText("");
-                updateUI();
-            }
+                    newWhat.setText("");
+                    newWhere.setText("");
+                    updateUI();
+                }
             }
         });
 
     }
 
 
-//// This method fill a few things into ThingsDB for testing
+    //// This method fill a few things into ThingsDB for testing
 //private void fillThingsDB() {
 //    thingsDB.add(new Thing("Android Pnone", "Desk"));
 //    thingsDB.add(new Thing("Big Nerd book", "Desk"));
