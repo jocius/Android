@@ -1,6 +1,7 @@
 package com.example.justinas.tingle;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -24,7 +25,7 @@ public class TingleFragment extends Fragment {
     private TextView newWhat, newWhere;
     private static ThingsDB thingsDB;
 
-
+    public interface toActivity { public void stateChange(); }
 
 
     @Override
@@ -71,6 +72,13 @@ public class TingleFragment extends Fragment {
                     newWhat.setText("");
                     newWhere.setText("");
                     updateUI();
+
+                    if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+                        ((toActivity) getActivity()).stateChange();
+
+                    }
+
+
                 }
             }
         });

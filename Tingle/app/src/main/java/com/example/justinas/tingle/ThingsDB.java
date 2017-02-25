@@ -30,6 +30,9 @@ public class ThingsDB {
     public void addThing(Thing thing) {
         mThingsDB.add(thing);
     }
+    public void deleteThing(int index) {
+        mThingsDB.remove(index);
+    }
 
     public int size() {
         return mThingsDB.size();

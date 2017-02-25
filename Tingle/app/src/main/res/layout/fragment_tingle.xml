@@ -70,6 +70,12 @@
             android:layout_height="wrap_content"
             />
     </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <!-- Button to add new thing-->
     <Button
         android:layout_width="123dp"
@@ -77,15 +83,18 @@
         android:background="#ffff0000"
         android:id="@+id/add_button"
         android:text="@string/Add_Btn"
+        android:layout_marginRight="20dp"
         />
     <!-- Button to open list activity-->
-    <Button
-        android:layout_width="123dp"
-        android:layout_height="wrap_content"
-        android:background="#00ff19"
-        android:id="@+id/showList"
-        android:text="@string/show_Btn"
-        />
+        <Button
+            android:layout_width="123dp"
+            android:layout_height="wrap_content"
+            android:background="#00ff19"
+            android:id="@+id/showList"
+            android:text="@string/show_Btn"
 
+
+            />
+    </LinearLayout>
 </LinearLayout>
 
