@@ -3,3 +3,19 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
     />
+
+
+
+
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+              <!--android:orientation="horizontal"-->
+              <!--android:layout_width="match_parent"-->
+              <!--android:layout_height="match_parent"-->
+              <!--android:id="@+id/frags">-->
+
+    <!--<fragment class="com.example.justinas.tingle.TingleListFragment"-->
+              <!--android:id="@+id/listActivityFragment"-->
+              <!--android:layout_width="match_parent"-->
+              <!--android:layout_height="match_parent"-->
+              <!--android:layout_weight="1"/>-->
+<!--</LinearLayout>-->
