@@ -9,29 +9,52 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="joc.rejsekort.MainActivity">
+    tools:context="joc.rejsekortjoc.MainActivity">
 
+
+
+    <TextView
+        android:text="Username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/usernameTxt"
+        android:fontFamily="sans-serif"
+        android:textSize="30sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:text="Password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:id="@+id/passwordTxt"
+        android:fontFamily="sans-serif"
+        android:textSize="30sp"
+        android:layout_below="@+id/username"
+        android:layout_alignStart="@+id/usernameTxt"/>
+
+
+    <Button
+        android:text="Register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/toRegister"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="48dp"
+        android:layout_alignParentEnd="true"/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:layout_below="@+id/PasswordTxt"
-        android:layout_alignStart="@+id/username"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="43dp"
         android:id="@+id/password"
+        android:layout_below="@+id/passwordTxt"
+        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"/>
-
-    <TextView
-        android:text="Username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        android:fontFamily="sans-serif"
-        android:textSize="30sp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -39,39 +62,18 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/username"
-        android:layout_below="@+id/textView2"
+        android:layout_below="@+id/usernameTxt"
         android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"
         android:layout_alignParentEnd="true"/>
-
-    <TextView
-        android:text="Password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:id="@+id/PasswordTxt"
-        android:fontFamily="sans-serif"
-        android:textSize="30sp"
-        android:layout_below="@+id/username"
-        android:layout_alignStart="@+id/textView2"/>
 
     <Button
         android:text="Login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/toLogin"
-        android:layout_centerVertical="true"
+        android:id="@+id/login"
+        android:layout_below="@+id/password"
         android:layout_alignParentStart="true"
+        android:layout_marginTop="29dp"
         android:layout_alignParentEnd="true"/>
-
-    <Button
-        android:text="Register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/toRegister"
-        android:layout_below="@+id/login"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="60dp"
-        android:layout_alignParentEnd="true"/>
-
-
 </RelativeLayout>
