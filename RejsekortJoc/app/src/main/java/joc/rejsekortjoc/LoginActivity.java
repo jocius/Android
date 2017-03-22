@@ -6,14 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import io.realm.Realm;
-import io.realm.RealmQuery;
-import io.realm.RealmResults;
 import joc.rejsekortjoc.Database.UserDB;
-import joc.rejsekortjoc.HelpClasses.User;
+import joc.rejsekortjoc.Other.SaveSharedPreference;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
 
     private Button toRegister;
@@ -37,18 +36,29 @@ public class MainActivity extends AppCompatActivity {
         toRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(MainActivity.this,RegisterActivity.class);
-                MainActivity.this.startActivity(intent);
+                Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
+                LoginActivity.this.startActivity(intent);
             }
         });
 
         toLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
+               String userName =  sUsername.getText().toString().trim();
+                if(mUserDB.getUsers(userName,sPassword.getText().toString().trim())){
 
-                if(mUserDB.getUsers(sUsername.getText().toString().trim(),sPassword.getText().toString().trim())){
 
-                    //go to main window
+                    //Save username to preferences for persistent login
+                    SaveSharedPreference ss = new SaveSharedPreference();
+                    ss.setUserName(getApplicationContext(),userName);
+
+                    //go to main menu
+                    Intent intent = new Intent(LoginActivity.this,MenuActivity.class);
+                    LoginActivity.this.startActivity(intent);
+                }
+                else{
+
+                    Toast.makeText(getApplicationContext(),"Username or/and password does not exists", Toast.LENGTH_LONG).show();
                 }
             }
         });

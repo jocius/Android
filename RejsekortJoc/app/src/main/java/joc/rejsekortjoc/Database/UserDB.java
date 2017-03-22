@@ -78,7 +78,7 @@ public class UserDB {
 // Execute the query:
         RealmResults<User> result1 = query.findAll();
 
-        if (result1!=null){return true;}
-        return false;
+        if (result1.size()==0){return false;}
+        return true;
     }
 }
