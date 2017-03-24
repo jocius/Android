@@ -16,6 +16,7 @@ public void onCreate() {
 
         Realm.init(this);
 
+
 //        RealmConfiguration config = new RealmConfiguration
 //                .Builder()
 //                .deleteRealmIfMigrationNeeded()
@@ -23,5 +24,6 @@ public void onCreate() {
 
 
 }
+
 }
 

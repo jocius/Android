@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                String userName =  sUsername.getText().toString().trim();
-                if(mUserDB.getUsers(userName,sPassword.getText().toString().trim())){
+                if(mUserDB.ifExist(userName,sPassword.getText().toString().trim())){
 
 
                     //Save username to preferences for persistent login

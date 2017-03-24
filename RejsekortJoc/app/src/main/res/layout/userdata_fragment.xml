@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:weightSum="1"
+    >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBlue"
+        android:gravity="center_horizontal"
+        >
+
+        <TextView
+            android:text="User:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView5"
+            android:textSize="20dp"
+            android:layout_marginRight="5dp"/>
+
+        <TextView
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/usersUsernameTxt"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_marginRight="5dp"/>
+
+        <TextView
+        android:text="Balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textview6"
+        android:textSize="20dp"
+        android:layout_marginRight="5dp"/>
+
+
+
+
+        <TextView
+            android:text="money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/usersCreditTxt"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_marginRight="5dp"/>
+
+        <TextView
+            android:text="DKK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView8"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_marginRight="5dp"/>
+    </LinearLayout>
+
+
+
+
+
+
+</LinearLayout>

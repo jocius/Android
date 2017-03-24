@@ -68,7 +68,7 @@ public class UserDB {
 //        addUser(new User("j", "j"));
 
     }
-    public Boolean getUsers(String username, String password){
+    public Boolean ifExist(String username, String password){
 
 
         // Build the query looking at all users:
@@ -81,6 +81,27 @@ public class UserDB {
         RealmResults<User> result1 = query.findAll();
 
         if (result1.size()==0){return false;}
+
         return true;
     }
+
+    public User getUser(String username){
+
+        // Build the query looking at all users:
+        RealmQuery<User> query = realm.where(User.class);
+
+
+// Add query conditions:
+        query.equalTo("mUsername", username);
+// Execute the query:
+        RealmResults<User> result1 = query.findAll();
+
+        if (result1.size()==0){return null;}
+
+        return result1.first();
+
+
+    }
+
+
 }
