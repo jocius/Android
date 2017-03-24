@@ -39,6 +39,8 @@ public class UserDB {
             return false;
         } else {
             // Not exist
+
+
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {

@@ -15,15 +15,27 @@ public class User extends RealmObject {
     private String mUsername=null;
 
     private String mPassword=null;
+    private double mCredit = 0.00;
+    public double getCredit() {
+        return mCredit;
+    }
+
+    public void setCredit(double credit) {
+        mCredit = credit;
+    }
+
+
 
     public User() {
         mUsername ="";
         mPassword ="";
+        mCredit = 0.00;
 
     }
     public User(String username, String password) {
         mUsername = username;
         mPassword = password;
+
 
     }
 
