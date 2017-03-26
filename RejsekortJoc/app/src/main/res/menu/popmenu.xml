@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+>
+
+    <item
+        android:id="@+id/loggOut"
+        android:title="Logg OUT"/>
+
+    <item
+        android:id="@+id/addMoney"
+        android:title="Add money to Account"/>
+
+
+
+</menu>

@@ -15,22 +15,6 @@
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"
                  />
-    <Button
-        android:text="add Money"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="138dp"
-        android:id="@+id/addMoney"
-        android:layout_below="@+id/loggOut"
-        android:layout_alignParentEnd="true"/>
 
-    <Button
-        android:text="LogOut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/loggOut"
-
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="65dp"/>
 
 </RelativeLayout>

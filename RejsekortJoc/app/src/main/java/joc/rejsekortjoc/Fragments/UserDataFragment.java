@@ -1,13 +1,22 @@
 package joc.rejsekortjoc.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.support.v4.app.FragmentManager;
+
+import joc.rejsekortjoc.AccountActivity;
 import joc.rejsekortjoc.Database.UserDB;
 import joc.rejsekortjoc.HelpClasses.User;
+import joc.rejsekortjoc.LoginActivity;
+import joc.rejsekortjoc.MenuActivity;
 import joc.rejsekortjoc.Other.SaveSharedPreference;
 import joc.rejsekortjoc.R;
 
@@ -19,7 +28,9 @@ public class UserDataFragment  extends android.support.v4.app.Fragment {
 
 
     private TextView mUsername,mCredit;
+    private Button mPopButton,mLoggOut,mAddMoney;
     private static UserDB mUserDB;
+    private PopupMenu popup;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,17 +45,56 @@ public class UserDataFragment  extends android.support.v4.app.Fragment {
         View v = inflater.inflate(R.layout.userdata_fragment, container, false);
 
         mUserDB = mUserDB.get(getActivity());
-    mUsername =(TextView) v.findViewById(R.id.usersUsernameTxt);
+        mUsername =(TextView) v.findViewById(R.id.usersUsernameTxt);
         mCredit =(TextView) v.findViewById(R.id.usersCreditTxt);
 
-       mCredit.setText(getCredit());
-
-
+        mCredit.setText(getCredit());
         mUsername.setText(SaveSharedPreference.getUserName(getActivity()));
+
+
+        //pop up menu
+        mPopButton = (Button)v.findViewById(R.id.popButton);
+        mPopButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                popup = new PopupMenu(getActivity(), v);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.popmenu, popup.getMenu());
+                popup.show();
+
+
+
+                //pop up action listeners
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.loggOut:
+                            loggOut();
+                                return true;
+                            case R.id.addMoney:
+                            toAddMoney();
+                                item.setVisible(false);
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+
+
+
+                });
+            }
+        });
+
+
+
 
 
         return v;
     }
+
+
+
 
     private String getCredit(){
 
@@ -56,5 +106,20 @@ public class UserDataFragment  extends android.support.v4.app.Fragment {
 
         return "";
     }
+
+    private void loggOut(){
+        SaveSharedPreference.clearUserName(getActivity().getApplicationContext());
+                Intent intent = new Intent(getActivity(),LoginActivity.class);
+                getActivity().startActivity(intent);
+
+    }
+    private void toAddMoney(){
+
+        Intent intent = new Intent(getActivity(),AccountActivity.class);
+        getActivity().startActivity(intent);
+
+
+    }
+
     public void updateCredit() { mCredit.setText(getCredit()); }
 }

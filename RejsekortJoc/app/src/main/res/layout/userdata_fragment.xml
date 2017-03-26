@@ -64,8 +64,9 @@
             android:text="+"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:id="@+id/addMoney"
+            android:id="@+id/popButton"
             android:textSize="15dp"
+
             />
 
     </LinearLayout>

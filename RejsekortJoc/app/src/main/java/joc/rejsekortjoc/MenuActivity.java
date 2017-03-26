@@ -14,8 +14,7 @@ import joc.rejsekortjoc.Other.SaveSharedPreference;
 
 public class MenuActivity extends FragmentActivity {
 
-    private Button mLoggOut;
-    private Button mAddMoney;
+
     private Fragment fragmentListLand;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,24 +22,7 @@ public class MenuActivity extends FragmentActivity {
         setContentView(R.layout.activity_menu);
     //        ifUserLoggedIn();
 
-        mLoggOut = (Button) findViewById(R.id.loggOut);
-        mLoggOut.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-//clear out everything
-                SaveSharedPreference.clearUserName(getApplicationContext());
-                Intent intent = new Intent(MenuActivity.this,LoginActivity.class);
-                MenuActivity.this.startActivity(intent);
-            }
-        });
 
-        mAddMoney = (Button)findViewById(R.id.addMoney);
-        mAddMoney.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(MenuActivity.this,AccountActivity.class);
-                MenuActivity.this.startActivity(intent);
-
-            }
-        });
 
 
         FragmentManager fm = getSupportFragmentManager();
