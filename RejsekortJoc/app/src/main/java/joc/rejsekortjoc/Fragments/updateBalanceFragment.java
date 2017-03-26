@@ -14,11 +14,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import joc.rejsekortjoc.AccountActivity;
+
 import joc.rejsekortjoc.Database.BankDB;
-import joc.rejsekortjoc.Database.UserDB;
-import joc.rejsekortjoc.HelpClasses.User;
-import joc.rejsekortjoc.LoginActivity;
 import joc.rejsekortjoc.Other.SaveSharedPreference;
 import joc.rejsekortjoc.R;
 
@@ -35,7 +32,7 @@ public class updateBalanceFragment  extends android.support.v4.app.Fragment {
     private static BankDB mBankDB;
     private Fragment mUserDataAccFragment;
 
-
+    public interface toActivity { public void updateBalance(); }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,7 +72,7 @@ public class updateBalanceFragment  extends android.support.v4.app.Fragment {
                             mSum.setText("");
                             mSecNo.setText("");
                             mCardNo.setText("");
-                            updateFragment();
+                            ((toActivity) getActivity()).updateBalance();
                             break;
                         case "failBankInfo":
                             Toast.makeText(getActivity().getApplicationContext(),"Card or/and security numbers are incorrect, or there is not enough money in bank account", Toast.LENGTH_LONG).show();
@@ -102,31 +99,15 @@ public class updateBalanceFragment  extends android.support.v4.app.Fragment {
 
         return v;
     }
-    private void ifUserLoggedIn(){
-
-        if(SaveSharedPreference.getUserName(getActivity()).length() == 0)
-        {
-
-            //redirect to login activity
-            Intent intent = new Intent(getActivity(),LoginActivity.class);
-            getActivity().startActivity(intent);
-        }
-        else
-        {
-            // Stay at the current activity.
-        }
 
 
 
-    }
-
-
-    public void updateFragment() {
-//        FragmentManager fm2 = getSupportFragmentManager();
-//        mUserDataAccFragment = fm2.findFragmentById(R.id.userDataInAccFragment);
-//        ((UserDataFragment) mUserDataAccFragment).updateCredit();
-
-    }
+//    public void updateFragment() {
+////        FragmentManager fm2 = getSupportFragmentManager();
+////        mUserDataAccFragment = fm2.findFragmentById(R.id.userDataInAccFragment);
+////        ((UserDataFragment) mUserDataAccFragment).updateCredit();
+//
+//    }
 
 
 

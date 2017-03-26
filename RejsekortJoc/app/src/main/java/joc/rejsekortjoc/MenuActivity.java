@@ -10,12 +10,13 @@ import android.view.View;
 import android.widget.Button;
 
 import joc.rejsekortjoc.Fragments.UserDataFragment;
+import joc.rejsekortjoc.Fragments.updateBalanceFragment;
 import joc.rejsekortjoc.Other.SaveSharedPreference;
 
-public class MenuActivity extends FragmentActivity {
+public class MenuActivity extends FragmentActivity implements updateBalanceFragment.toActivity {
 
 
-    private Fragment fragmentListLand;
+    private Fragment fragmentUserData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,11 +27,11 @@ public class MenuActivity extends FragmentActivity {
 
 
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.mainMenuFragment);
+        Fragment fragment = fm.findFragmentById(R.id.userDataInMenuFragment);
         if (fragment == null) {
             fragment = new UserDataFragment();
             fm.beginTransaction()
-                    .add(R.id.mainMenuFragment, fragment)
+                    .add(R.id.userDataInMenuFragment, fragment)
                     .commit(); }
 
 
@@ -41,7 +42,7 @@ public class MenuActivity extends FragmentActivity {
     @Override
     public void onResume() {
         super.onResume();  // Always call the superclass method first
-        updateFragment();
+        updateBalance();
 
     }
 
@@ -61,13 +62,15 @@ public class MenuActivity extends FragmentActivity {
 
 
     }
-    public void updateFragment() {
-        FragmentManager fm2 = getSupportFragmentManager();
-        fragmentListLand= fm2.findFragmentById(R.id.mainMenuFragment);
-        if(fragmentListLand!=null){
+    @Override
+    public void onBackPressed() {
 
-            ((UserDataFragment) fragmentListLand).updateCredit();
-        }
+    }
+    @Override
+    public void updateBalance() {
+        FragmentManager fm2 = getSupportFragmentManager();
+        fragmentUserData= fm2.findFragmentById(R.id.userDataInMenuFragment);
+        if(fragmentUserData!=null){((UserDataFragment) fragmentUserData).updateBalance();}
 
     }
 

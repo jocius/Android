@@ -11,7 +11,7 @@
     android:background="@color/colorLightBlue"
     tools:context="joc.rejsekortjoc.MenuActivity">
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                 android:id="@+id/mainMenuFragment"
+                 android:id="@+id/userDataInMenuFragment"
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"
                  />
