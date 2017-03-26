@@ -20,7 +20,7 @@ public class MenuActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-    //        ifUserLoggedIn();
+            ifUserLoggedIn();
 
 
 
@@ -42,7 +42,6 @@ public class MenuActivity extends FragmentActivity {
     public void onResume() {
         super.onResume();  // Always call the superclass method first
         updateFragment();
-      ifUserLoggedIn();
 
     }
 

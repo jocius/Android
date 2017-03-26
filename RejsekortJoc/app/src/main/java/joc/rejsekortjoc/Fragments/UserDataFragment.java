@@ -109,8 +109,13 @@ public class UserDataFragment  extends android.support.v4.app.Fragment {
 
     private void loggOut(){
         SaveSharedPreference.clearUserName(getActivity().getApplicationContext());
+
                 Intent intent = new Intent(getActivity(),LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getActivity().startActivity(intent);
+
 
     }
     private void toAddMoney(){
