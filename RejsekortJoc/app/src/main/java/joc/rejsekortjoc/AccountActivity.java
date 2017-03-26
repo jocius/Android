@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import joc.rejsekortjoc.Database.BankDB;
-import joc.rejsekortjoc.Database.UserDB;
 import joc.rejsekortjoc.Fragments.UserDataFragment;
 import joc.rejsekortjoc.Other.SaveSharedPreference;
 
@@ -20,8 +19,8 @@ public class AccountActivity extends AppCompatActivity {
     private Button mAdd;
     private TextView mSum,mSecNo,mCardNo;
     private static BankDB mBankDB;
+    private Fragment mUserDataAccFragment;
 
-    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +53,7 @@ public class AccountActivity extends AppCompatActivity {
                             mSum.setText("");
                             mSecNo.setText("");
                             mCardNo.setText("");
-
+                            updateFragment();
                             break;
                         case "failBankInfo":
                             Toast.makeText(getApplicationContext(),"Card or/and security numbers are incorrect, or there is not enough money in bank account", Toast.LENGTH_LONG).show();
@@ -99,6 +98,14 @@ public class AccountActivity extends AppCompatActivity {
         }
 
 
+
+    }
+
+
+    public void updateFragment() {
+        FragmentManager fm2 = getSupportFragmentManager();
+        mUserDataAccFragment = fm2.findFragmentById(R.id.accountFragment);
+        ((UserDataFragment) mUserDataAccFragment).updateCredit();
 
     }
 }

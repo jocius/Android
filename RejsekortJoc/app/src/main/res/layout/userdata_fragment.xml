@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorBlue"
         android:gravity="center_horizontal"
-        >
+        android:weightSum="1">
 
         <TextView
             android:text="User:"
@@ -59,6 +59,15 @@
             android:textStyle="bold"
             android:textSize="20dp"
             android:layout_marginRight="5dp"/>
+
+        <Button
+            android:text="+"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:id="@+id/addMoney"
+            android:textSize="15dp"
+            />
+
     </LinearLayout>
 
 

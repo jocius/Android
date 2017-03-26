@@ -16,11 +16,12 @@ public class MenuActivity extends FragmentActivity {
 
     private Button mLoggOut;
     private Button mAddMoney;
+    private Fragment fragmentListLand;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-            ifUserLoggedIn();
+    //        ifUserLoggedIn();
 
         mLoggOut = (Button) findViewById(R.id.loggOut);
         mLoggOut.setOnClickListener(new View.OnClickListener() {
@@ -58,9 +59,9 @@ public class MenuActivity extends FragmentActivity {
     @Override
     public void onResume() {
         super.onResume();  // Always call the superclass method first
-
-
+        updateFragment();
       ifUserLoggedIn();
+
     }
 
     private void ifUserLoggedIn(){
@@ -74,9 +75,19 @@ public class MenuActivity extends FragmentActivity {
         }
         else
         {
-            // Stay at the current activity.
+
         }
 
 
     }
+    public void updateFragment() {
+        FragmentManager fm2 = getSupportFragmentManager();
+        fragmentListLand= fm2.findFragmentById(R.id.mainMenuFragment);
+        if(fragmentListLand!=null){
+
+            ((UserDataFragment) fragmentListLand).updateCredit();
+        }
+
+    }
+
 }
