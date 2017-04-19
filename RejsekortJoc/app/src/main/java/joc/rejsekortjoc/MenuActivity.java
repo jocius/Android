@@ -10,10 +10,12 @@ import android.view.View;
 import android.widget.Button;
 
 import joc.rejsekortjoc.Fragments.UserDataFragment;
+import joc.rejsekortjoc.Fragments.checkInOutFragment;
 import joc.rejsekortjoc.Fragments.updateBalanceFragment;
 import joc.rejsekortjoc.Other.SaveSharedPreference;
 
 public class MenuActivity extends FragmentActivity implements updateBalanceFragment.toActivity {
+
 
 
     private Fragment fragmentUserData;
@@ -31,7 +33,15 @@ public class MenuActivity extends FragmentActivity implements updateBalanceFragm
         if (fragment == null) {
             fragment = new UserDataFragment();
             fm.beginTransaction()
-                    .add(R.id.userDataInMenuFragment, fragment)
+                    .add(R.id.chekInOutFragment, fragment)
+                    .commit(); }
+
+        FragmentManager fm2 = getSupportFragmentManager();
+        Fragment fragment2 = fm.findFragmentById(R.id.chekInOutFragment);
+        if (fragment2 == null) {
+            fragment2 = new checkInOutFragment();
+            fm.beginTransaction()
+                    .add(R.id.chekInOutFragment, fragment2)
                     .commit(); }
 
 
