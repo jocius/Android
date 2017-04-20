@@ -21,8 +21,36 @@
         android:text="Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/button1"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="60dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        android:id="@+id/hello2"
+        android:layout_marginTop="59dp"
         android:layout_below="@+id/hello"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="51dp"
-        android:id="@+id/button1"/>
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        android:id="@+id/hello4"
+        android:layout_below="@+id/hello2"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="77dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        android:id="@+id/hello3"
+        android:layout_above="@+id/button1"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="69dp"/>
 </RelativeLayout>
