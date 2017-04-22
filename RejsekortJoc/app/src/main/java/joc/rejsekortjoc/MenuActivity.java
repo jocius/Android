@@ -1,24 +1,15 @@
 package joc.rejsekortjoc;
 
+
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+
 
 import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
-import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
-import com.estimote.coresdk.recognition.packets.Beacon;
-import com.estimote.coresdk.service.BeaconManager;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-
 import joc.rejsekortjoc.Fragments.UserDataFragment;
 import joc.rejsekortjoc.Fragments.checkInOutFragment;
 import joc.rejsekortjoc.Fragments.updateBalanceFragment;
@@ -47,7 +38,7 @@ public class MenuActivity extends FragmentActivity implements updateBalanceFragm
         if (fragment == null) {
             fragment = new UserDataFragment();
             fm.beginTransaction()
-                    .add(R.id.chekInOutFragment, fragment)
+                    .add(R.id.userDataInMenuFragment, fragment)
                     .commit(); }
 
         FragmentManager fm2 = getSupportFragmentManager();
@@ -66,6 +57,7 @@ public class MenuActivity extends FragmentActivity implements updateBalanceFragm
     @Override
     public void onResume() {
         super.onResume();  // Always call the superclass method first
+
         updateBalance();
         SystemRequirementsChecker.checkWithDefaultDialogs(this);
 
@@ -93,8 +85,10 @@ public class MenuActivity extends FragmentActivity implements updateBalanceFragm
     public void onBackPressed() {
 
     }
+
     @Override
     public void updateBalance() {
+
         FragmentManager fm2 = getSupportFragmentManager();
         fragmentUserData= fm2.findFragmentById(R.id.userDataInMenuFragment);
 

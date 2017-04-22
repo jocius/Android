@@ -46,8 +46,11 @@ public class UserDataFragment  extends android.support.v4.app.Fragment {
         mUsername =(TextView) v.findViewById(R.id.usersUsernameTxt);
         mCredit =(TextView) v.findViewById(R.id.usersCreditTxt);
 
-        mCredit.setText(getCredit());
+        String credits = getCredit();
+        mCredit.setText(credits);
+        SaveSharedPreference.setCredit(getActivity(),credits);
         mUsername.setText(SaveSharedPreference.getUserName(getActivity()));
+
 
 
         //pop up menu
@@ -124,5 +127,7 @@ public class UserDataFragment  extends android.support.v4.app.Fragment {
 
     }
 
-    public void updateBalance() { mCredit.setText(getCredit()); }
+    public void updateBalance() { String credits = getCredit();
+        mCredit.setText(credits);
+        SaveSharedPreference.setCredit(getActivity(),credits); }
 }

@@ -38,6 +38,7 @@ public class AccountActivity extends FragmentActivity implements updateBalanceFr
 
     @Override
     public void updateBalance() {
+
         FragmentManager fm2 = getSupportFragmentManager();
         fragmentUserData= fm2.findFragmentById(R.id.userDataInAccFragment);
         ((UserDataFragment) fragmentUserData).updateBalance();

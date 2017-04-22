@@ -75,13 +75,14 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
             public void onClick(View v) {
 
                 //minimum trip cost is 15DKK, if it is less, user cannot start trip
-                if (Double.parseDouble(SaveSharedPreference.getCredit(getActivity()))> 999999.0){
+                if (Double.parseDouble(SaveSharedPreference.getCredit(getActivity()))> 15){
                     beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
                         @Override
                         public void onServiceReady() {
                             beaconManager.startRanging(region);
                         }
                     });
+                    startTripBtn.setEnabled(false);
                 }
                 else {
                     Toast.makeText(getActivity().getApplicationContext(),"You have to have at least 15 DKK to start trip!", Toast.LENGTH_LONG).show();
@@ -316,7 +317,12 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
 Double tripPrice = station.getPrice();
                 if (mUserDB.chargeUser(SaveSharedPreference.getUserName(getActivity()),tripPrice)){
 
+                    ((updateBalanceFragment.toActivity) getActivity()).updateBalance();
+
                     Toast.makeText(getActivity().getApplicationContext(),"Trip finished from station: " +startStation +" to " + endStation + ". Price: " + tripPrice, Toast.LENGTH_LONG).show();
+                    checkInLoc.setText("");
+                    checkOutloc.setText("");
+                    startTripBtn.setEnabled(true);
                 }
             }
             System.out.println("Start: " + station.getStartStation() +" end: " + station.getEndStation()+ " price " +station.getPrice());
