@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     android:gravity="center_horizontal"
-    android:layout_marginTop="20dp">
+
+    android:background="@color/colorLightBlue">
 
 
 
@@ -17,6 +18,9 @@
         android:id="@+id/usernameTxt"
         android:fontFamily="sans-serif"
         android:textSize="30sp"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+
 />
 
     <EditText
@@ -34,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
         android:id="@+id/passwordTxt"
-
+        android:textStyle="bold"
         android:fontFamily="sans-serif"
         android:textSize="30sp"
 />
@@ -59,7 +63,8 @@
             android:text="Register"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:id="@+id/toRegister"/>
+            android:id="@+id/toRegister"
+            android:background="@color/colorRed"/>
 
         <Button
             android:text="Login"
@@ -67,6 +72,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/login"
             android:layout_alignParentRight="true"
+            android:background="@color/colorGreen"
             />
 
     </RelativeLayout>

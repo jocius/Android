@@ -61,9 +61,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
         beaconManager = new BeaconManager(getApplicationContext());
 
-        beaconManager.disconnect();
 //// We want the beacons heartbeat to be set at one second.
         beaconManager.setBackgroundScanPeriod(TimeUnit.SECONDS.toMillis(2),
                 2);
@@ -181,8 +181,8 @@ public class MainActivity extends AppCompatActivity {
                 mInput.setText("RESETED");
                 mInput2.setText("RESETED");
                 mInput3.setText("RESETED");
-//             list = app.startIt();
-//                updateUI(list.get(0).toString());
+
+
             }
         });
 

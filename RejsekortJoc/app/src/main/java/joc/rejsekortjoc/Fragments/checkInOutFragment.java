@@ -1,16 +1,22 @@
 package joc.rejsekortjoc.Fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import joc.rejsekortjoc.Database.BankDB;
-import joc.rejsekortjoc.Other.SaveSharedPreference;
+import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
+import com.estimote.coresdk.recognition.packets.Beacon;
+import com.estimote.coresdk.service.BeaconManager;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+import joc.rejsekortjoc.HelpClasses.BeaconInfo;
 import joc.rejsekortjoc.R;
 
 /**
@@ -21,8 +27,22 @@ import joc.rejsekortjoc.R;
 public class checkInOutFragment  extends android.support.v4.app.Fragment {
 
 
+    //beacons stuff
+    private BeaconManager beaconManager;
+    private BeaconRegion region = new BeaconRegion("ranged region", UUID.fromString("e3b54450-ab73-4d79-85d6-519eaf0f45d9"), null, null);
 
 
+    //activity
+    private TextView checkOutloc,checkInLoc, testView;
+    private Button startTripBtn;
+
+    //beacon handling
+    private BeaconInfo checkedInLocation=null;
+    private boolean checkInUpdated = false;
+    private BeaconInfo checkedOutLocation = null;
+    private static List<BeaconInfo> beaconList = new ArrayList<>();
+    private Integer scanCount = 0;
+    private Integer count = 0;
 
 
     @Override
@@ -37,15 +57,235 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.checkinout_fragment, container, false);
 
+        checkOutloc = (TextView) v.findViewById(R.id.checkedOutLocation);
+        checkInLoc = (TextView) v.findViewById(R.id.checkedInLocation);
+        testView = (TextView) v.findViewById(R.id.testView1);
+        startTripBtn = (Button) v.findViewById(R.id.startTrip);
+
+        startTripBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
+
+                    @Override
+                    public void onServiceReady() {
+
+                        beaconManager.startRanging(region);
+                    }
+                });
+//                List<BeaconInfo> empty = new ArrayList<>();
+//                beaconList = empty;
+//                scanCount = 0;
+//                count = 0;
+//                testView.setText("RESETED");
+//                checkOutloc.setText("RESETED");
+//                checkInLoc.setText("RESETED");
+//                checkedInLocation=null;
+//                 checkInUpdated = false;
+//                checkedOutLocation = null;
 
 
+            }
+        });
 
 
+        //beacons....
+        beaconManager = new BeaconManager(getActivity());
+
+//// We want the beacons heartbeat to be set at 2 second.
+        beaconManager.setBackgroundScanPeriod(TimeUnit.SECONDS.toMillis(2),
+                2);
+        beaconManager.setForegroundScanPeriod(TimeUnit.SECONDS.toMillis(2),
+                2);
+
+        beaconManager.setRangingListener(new BeaconManager.BeaconRangingListener() {
+            @Override
+            public void onBeaconsDiscovered(BeaconRegion beaconRegion, List<Beacon> list) {
+                count++;
+
+                scanCount++;
+                //after 4 scans, determine, which floor user is
+                if (scanCount==4){
+
+                    if (!beaconList.isEmpty()){startFilter();}
+
+                    scanCount=0;
+                    beaconList = new ArrayList<>();
+
+                }
+                //if receive a beacon, call method for filtering
+                if (list.size()>0){
+                    for (Beacon beacon : list){
+
+                        //restriction just to floor 2 and 5
+                        if (beacon.getMajor()==2 || beacon.getMajor() ==5){
+
+                            //checkIn location is know, then dont read CheckIn location
+                            if (checkedInLocation!=null){
+
+                                if (checkedInLocation.getFloor() != beacon.getMajor()){
+                                    ifExists(beacon);
+                                }
+                            }
+                            else{
+                                ifExists(beacon);
+
+                            }
 
 
+                        }
+//                        if (beacon.getMajor()==5){
+//
+//                            checkOutloc.setText("Floor: " + beacon.getMajor() + " room: "+ beacon.getMinor() + " RSS " +beacon.getRssi() + " Counts: "+ scanCount);
+//
+//                        }
+//                        if (beacon.getMajor()==2){
+//
+//
+//                            checkInLoc.setText("Floor: " + beacon.getMajor() + " room: "+ beacon.getMinor() + " RSS " +beacon.getRssi() + " Counts: "+ scanCount);
+//                        }
 
+                    }
+
+
+                }
+
+            }
+        });
 
         return v;
+    }
+
+
+//places unique beacons in list (uniqueness is based on Floor)
+    private void ifExists(Beacon newBeacon){
+
+        boolean found = false;
+        Integer beaconIndex = -1;
+        if(!beaconList.isEmpty()){
+
+            for (int i= 0 ; i < beaconList.size();i++){
+
+                //same floor exists in list, update count and add power
+                if (beaconList.get(i).getFloor()== newBeacon.getMajor()){
+                    found = true;
+                    beaconIndex = i;
+
+                }
+
+            }
+            //SPECIAL handling, due to concurrentModifactionExceptions
+            //found same within array
+            if (found && beaconIndex > -1){
+
+
+                if (beaconIndex!=-1){
+
+                    beaconList.get(beaconIndex).setCount(beaconList.get(beaconIndex).getCount()+1);
+                    beaconList.get(beaconIndex).setPower(beaconList.get(beaconIndex).getPower()+newBeacon.getRssi());
+                }
+
+
+            }
+             else if(!found){
+                BeaconInfo beac = new BeaconInfo();
+                beac.setArea(newBeacon.getMinor());
+                beac.setCount(1);
+                beac.setFloor(newBeacon.getMajor());
+                beac.setPower(newBeacon.getRssi());
+                beaconList.add(beac);
+
+            }
+
+
+
+
+        }
+        //list empty, add beacon
+        else {
+            BeaconInfo beac = new BeaconInfo();
+            beac.setArea(newBeacon.getMinor());
+            beac.setCount(1);
+            beac.setFloor(newBeacon.getMajor());
+            beac.setPower(newBeacon.getRssi());
+            beaconList.add(beac);
+
+        }
+
+    }
+
+    private void startFilter(){
+
+        List<BeaconInfo> emptyList = new ArrayList<>();
+        emptyList = beaconList;
+        //one beacon in list - means no filtering - checked-IN location is known
+        if (emptyList.size()==1){
+
+            whichLocation(emptyList.get(0));
+
+
+        }
+        //two different floor beacons found
+        else if(emptyList.size()>1) {
+            //find
+            float maxPower =  (float)(emptyList.get(0).getPower() / emptyList.get(0).getCount());
+            int index = 0;
+            for(int i= 0 ; i<emptyList.size();i++){
+//                        for (BeaconInfo beacon: emptyList){
+                float beaconPower = (float)(emptyList.get(i).getPower() / emptyList.get(i).getCount());
+                if (maxPower < beaconPower){
+                    index = i;
+                    maxPower = beaconPower;
+
+                }
+
+
+            }
+            whichLocation(emptyList.get(index));
+            testView.setText("Biggest power "+ emptyList.get(index).getFloor() + " count " + count);
+
+
+
+
+        }
+
+
+    }
+
+    //method determining, checkIn or checkOut location
+    private void whichLocation(BeaconInfo beacon){
+
+        if (checkedInLocation==null && checkedOutLocation ==null && !checkInUpdated){
+            updateLocation(beacon,"CheckIn");
+        }
+        else if (checkedInLocation!=null && checkedOutLocation==null && checkedInLocation.getFloor() != beacon.getFloor()){
+
+            updateLocation(beacon,"CheckOut");
+        }
+
+    }
+
+    private void updateLocation(BeaconInfo beacon,String type){
+
+
+
+        switch (type){
+
+            case "CheckIn":
+                checkInLoc.setText(beacon.getFloor() +" Floor"+ " count "+count);
+                checkedInLocation=beacon;
+                checkInUpdated = true;
+            break;
+            case "CheckOut":
+                checkOutloc.setText(beacon.getFloor()  +" Floor"+ " count "+count);
+                checkedOutLocation=beacon;
+            break;
+
+            default:
+                System.out.println("No such type");
+                break;
+
+        }
+
     }
 
 

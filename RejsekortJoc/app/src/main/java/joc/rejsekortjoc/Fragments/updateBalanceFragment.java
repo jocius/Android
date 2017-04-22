@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 
 import joc.rejsekortjoc.Database.BankDB;
+import joc.rejsekortjoc.Database.UserDB;
 import joc.rejsekortjoc.Other.SaveSharedPreference;
 import joc.rejsekortjoc.R;
 
@@ -65,6 +66,10 @@ public class updateBalanceFragment  extends android.support.v4.app.Fragment {
 
                         case "OK":
                             Toast.makeText(getActivity().getApplicationContext(),"Transaction is complete", Toast.LENGTH_LONG).show();
+                            //Save username to preferences for persistent login
+                            UserDB mUserDB = new UserDB();
+                            SaveSharedPreference ss = new SaveSharedPreference();
+                            ss.setCredit(getActivity(),Double.toString(mUserDB.getUser(userName).getCredit()));
                             mSum.setText("");
                             mSecNo.setText("");
                             mCardNo.setText("");

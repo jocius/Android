@@ -10,13 +10,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.support.v4.app.FragmentManager;
 
 import joc.rejsekortjoc.AccountActivity;
 import joc.rejsekortjoc.Database.UserDB;
 import joc.rejsekortjoc.HelpClasses.User;
 import joc.rejsekortjoc.LoginActivity;
-import joc.rejsekortjoc.MenuActivity;
 import joc.rejsekortjoc.Other.SaveSharedPreference;
 import joc.rejsekortjoc.R;
 
@@ -108,7 +106,7 @@ public class UserDataFragment  extends android.support.v4.app.Fragment {
     }
 
     private void loggOut(){
-        SaveSharedPreference.clearUserName(getActivity().getApplicationContext());
+        SaveSharedPreference.clearPref(getActivity().getApplicationContext());
 
                 Intent intent = new Intent(getActivity(),LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

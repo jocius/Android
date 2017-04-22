@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                     //Save username to preferences for persistent login
                     SaveSharedPreference ss = new SaveSharedPreference();
                     ss.setUserName(getApplicationContext(),userName);
+                    ss.setCredit(getApplicationContext(),Double.toString(mUserDB.getUser(userName).getCredit()));
 
                     //go to main menu
                     Intent intent = new Intent(LoginActivity.this,MenuActivity.class);

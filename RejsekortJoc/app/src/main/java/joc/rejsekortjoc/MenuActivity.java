@@ -9,6 +9,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
+import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
+import com.estimote.coresdk.recognition.packets.Beacon;
+import com.estimote.coresdk.service.BeaconManager;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
 import joc.rejsekortjoc.Fragments.UserDataFragment;
 import joc.rejsekortjoc.Fragments.checkInOutFragment;
 import joc.rejsekortjoc.Fragments.updateBalanceFragment;
@@ -24,6 +34,10 @@ public class MenuActivity extends FragmentActivity implements updateBalanceFragm
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
             ifUserLoggedIn();
+
+
+
+
 
 
 
@@ -52,7 +66,9 @@ public class MenuActivity extends FragmentActivity implements updateBalanceFragm
     @Override
     public void onResume() {
         super.onResume();  // Always call the superclass method first
-        updateBalance();
+//        updateBalance();
+        SystemRequirementsChecker.checkWithDefaultDialogs(this);
+
 
     }
 
@@ -72,6 +88,7 @@ public class MenuActivity extends FragmentActivity implements updateBalanceFragm
 
 
     }
+    //empty, to disable back button
     @Override
     public void onBackPressed() {
 
@@ -80,6 +97,7 @@ public class MenuActivity extends FragmentActivity implements updateBalanceFragm
     public void updateBalance() {
         FragmentManager fm2 = getSupportFragmentManager();
         fragmentUserData= fm2.findFragmentById(R.id.userDataInMenuFragment);
+
         if(fragmentUserData!=null){((UserDataFragment) fragmentUserData).updateBalance();}
 
     }

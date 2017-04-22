@@ -6,37 +6,18 @@
               android:weightSum="1"
     android:layout_marginTop="35dp">
 
-    <LinearLayout
+    <Button
+        android:text="Start trip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-
+        android:id="@+id/startTrip"
         android:layout_marginBottom="15dp"
-        android:layout_weight="0.06">
-    <TextView
-        android:text="Current location:"
-        android:layout_width="182dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView6"
-        android:fontFamily="sans-serif"
-        android:textSize="18sp"/>
-
-        <TextView
-            android:text="TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/curretLocationTextView"
-            android:fontFamily="sans-serif"
-            android:textSize="18sp"
-            android:layout_weight="1"/>
-
-
-    </LinearLayout>
+        android:layout_marginTop="10dp"
+        android:background="@color/colorGreen"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-
         android:layout_marginBottom="20dp"
         android:layout_weight="0.06">
         <TextView
@@ -45,30 +26,60 @@
             android:layout_height="wrap_content"
             android:id="@+id/textView7"
             android:fontFamily="sans-serif"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:textStyle="bold"/>
 
         <TextView
-            android:text="TextView"
+            android:text=""
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/checkedInLocation"
             android:fontFamily="sans-serif"
             android:textSize="18sp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textColor="@color/colorDarkerBlue"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        android:layout_marginBottom="15dp"
+        android:layout_weight="0.06">
+        <TextView
+            android:text="Checked-Out location:"
+            android:layout_width="182dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView6"
+            android:fontFamily="sans-serif"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkedOutLocation"
+            android:fontFamily="sans-serif"
+            android:textSize="18sp"
+            android:layout_weight="1"
+            android:textColor="@color/colorDarkerBlue"
+            android:textStyle="bold"/>
 
 
     </LinearLayout>
 
 
-    <Button
-        android:text="Check In"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/checkInBtn"/>
 
-    <Button
-        android:text="Check Out"
+
+    <TextView
+        android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/checkOutBtn"/>
+        android:id="@+id/testView1"
+        android:layout_weight="0.06"/>
 </LinearLayout>
