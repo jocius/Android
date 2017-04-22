@@ -102,6 +102,22 @@ public class UserDB {
 
 
     }
+    public boolean chargeUser(String username, Double credit){
+
+
+        User user = realm.where(User.class).equalTo("mUsername",username).findFirst();
+
+        //if user exist charge him
+        if (user!=null) {
+            realm.beginTransaction();
+
+            user.setCredit(user.getCredit() - credit);
+            realm.commitTransaction();
+            return true;
+        }
+        return false;
+
+    }
 
 
 }

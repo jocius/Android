@@ -66,7 +66,7 @@ public class MenuActivity extends FragmentActivity implements updateBalanceFragm
     @Override
     public void onResume() {
         super.onResume();  // Always call the superclass method first
-//        updateBalance();
+        updateBalance();
         SystemRequirementsChecker.checkWithDefaultDialogs(this);
 
 

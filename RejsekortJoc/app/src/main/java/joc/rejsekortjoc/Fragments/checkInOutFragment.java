@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
 import com.estimote.coresdk.recognition.packets.Beacon;
@@ -16,7 +17,11 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import joc.rejsekortjoc.Database.UserDB;
 import joc.rejsekortjoc.HelpClasses.BeaconInfo;
+import joc.rejsekortjoc.HelpClasses.Station;
+import joc.rejsekortjoc.Other.SaveSharedPreference;
+import joc.rejsekortjoc.Other.StationPrice;
 import joc.rejsekortjoc.R;
 
 /**
@@ -35,6 +40,8 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
     //activity
     private TextView checkOutloc,checkInLoc, testView;
     private Button startTripBtn;
+
+    private static UserDB mUserDB;
 
     //beacon handling
     private BeaconInfo checkedInLocation=null;
@@ -62,16 +69,26 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
         testView = (TextView) v.findViewById(R.id.testView1);
         startTripBtn = (Button) v.findViewById(R.id.startTrip);
 
+        mUserDB = mUserDB.get(getActivity());
+
         startTripBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
 
-                    @Override
-                    public void onServiceReady() {
+                //minimum trip cost is 15DKK, if it is less, user cannot start trip
+                if (Double.parseDouble(SaveSharedPreference.getCredit(getActivity()))> 999999.0){
+                    beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
+                        @Override
+                        public void onServiceReady() {
+                            beaconManager.startRanging(region);
+                        }
+                    });
+                }
+                else {
+                    Toast.makeText(getActivity().getApplicationContext(),"You have to have at least 15 DKK to start trip!", Toast.LENGTH_LONG).show();
+                }
 
-                        beaconManager.startRanging(region);
-                    }
-                });
+
+                testView.setText("CREDIT: " + SaveSharedPreference.getCredit(getActivity()));
 //                List<BeaconInfo> empty = new ArrayList<>();
 //                beaconList = empty;
 //                scanCount = 0;
@@ -260,6 +277,9 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
         else if (checkedInLocation!=null && checkedOutLocation==null && checkedInLocation.getFloor() != beacon.getFloor()){
 
             updateLocation(beacon,"CheckOut");
+            //stations are known, charge user
+            chargeUser(checkedInLocation.getFloor(),checkedOutLocation.getFloor());
+
         }
 
     }
@@ -284,6 +304,22 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
                 System.out.println("No such type");
                 break;
 
+        }
+
+    }
+
+    private void chargeUser(Integer startStation, Integer endStation){
+
+        for (Station station: StationPrice.stations){
+
+            if (station.getStartStation() == startStation && station.getEndStation() == endStation){
+Double tripPrice = station.getPrice();
+                if (mUserDB.chargeUser(SaveSharedPreference.getUserName(getActivity()),tripPrice)){
+
+                    Toast.makeText(getActivity().getApplicationContext(),"Trip finished from station: " +startStation +" to " + endStation + ". Price: " + tripPrice, Toast.LENGTH_LONG).show();
+                }
+            }
+            System.out.println("Start: " + station.getStartStation() +" end: " + station.getEndStation()+ " price " +station.getPrice());
         }
 
     }

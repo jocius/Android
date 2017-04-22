@@ -27,6 +27,7 @@ public class updateBalanceFragment  extends android.support.v4.app.Fragment {
     private Button mAdd;
     private TextView mSum,mSecNo,mCardNo;
     private static BankDB mBankDB;
+    private static UserDB mUserDB;
     private Fragment mUserDataAccFragment;
 
     public interface toActivity { public void updateBalance(); }
@@ -45,6 +46,7 @@ public class updateBalanceFragment  extends android.support.v4.app.Fragment {
 
      //   ifUserLoggedIn();
         mBankDB = BankDB.get(getActivity());
+        mUserDB = UserDB.get(getActivity());
 
         mSum = (TextView) v.findViewById(R.id.sumMoney);
         mSecNo = (TextView) v.findViewById(R.id.secCode);
@@ -66,10 +68,9 @@ public class updateBalanceFragment  extends android.support.v4.app.Fragment {
 
                         case "OK":
                             Toast.makeText(getActivity().getApplicationContext(),"Transaction is complete", Toast.LENGTH_LONG).show();
-                            //Save username to preferences for persistent login
-                            UserDB mUserDB = new UserDB();
-                            SaveSharedPreference ss = new SaveSharedPreference();
-                            ss.setCredit(getActivity(),Double.toString(mUserDB.getUser(userName).getCredit()));
+
+                            //update in savedPreference users credit
+                            SaveSharedPreference.setCredit(getActivity(),Double.toString(mUserDB.getUser(usr).getCredit()));
                             mSum.setText("");
                             mSecNo.setText("");
                             mCardNo.setText("");
