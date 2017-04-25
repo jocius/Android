@@ -12,6 +12,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import joc.rejsekortjoc.AccountActivity;
+import joc.rejsekortjoc.ChangeUserActivity;
 import joc.rejsekortjoc.Database.UserDB;
 import joc.rejsekortjoc.HelpClasses.User;
 import joc.rejsekortjoc.LoginActivity;
@@ -76,6 +77,9 @@ public class UserDataFragment  extends android.support.v4.app.Fragment {
                             toAddMoney();
                                 item.setVisible(false);
                                 return true;
+                            case R.id.toUserInfo:
+                                toUserInfo();
+                                return true;
                             default:
                                 return false;
                         }
@@ -124,6 +128,11 @@ public class UserDataFragment  extends android.support.v4.app.Fragment {
         Intent intent = new Intent(getActivity(),AccountActivity.class);
         getActivity().startActivity(intent);
 
+
+    }
+    private void toUserInfo(){
+        Intent intent = new Intent(getActivity(),ChangeUserActivity.class);
+        getActivity().startActivity(intent);
 
     }
 

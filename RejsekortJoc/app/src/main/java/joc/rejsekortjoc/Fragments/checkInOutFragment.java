@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
 import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
 import com.estimote.coresdk.recognition.packets.Beacon;
 import com.estimote.coresdk.service.BeaconManager;
@@ -42,7 +43,7 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
 
 
     //activity
-    private TextView checkOutloc,checkInLoc, testView;
+    private TextView checkOutloc,checkInLoc;
     private Button startTripBtn, resetBtn;
 
 
@@ -69,20 +70,35 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
+            @Override
+            public void onServiceReady() {
+                beaconManager.startRanging(region);
+            }
+        });
+
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.checkinout_fragment, container, false);
 
+        mUserDB = mUserDB.get(getActivity());
         checkOutloc = (TextView) v.findViewById(R.id.checkedOutLocation);
         checkInLoc = (TextView) v.findViewById(R.id.checkedInLocation);
-        testView = (TextView) v.findViewById(R.id.testView1);
         startTripBtn = (Button) v.findViewById(R.id.startTrip);
         resetBtn = (Button) v.findViewById(R.id.resetTrip);
 
-        mUserDB = mUserDB.get(getActivity());
-        startTripBtn.setOnClickListener(new View.OnClickListener() {
+        resetBtn.setVisibility(View.GONE);
+        resetBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
                 resetEverything();
+
             }
 
     });
@@ -104,15 +120,6 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
                     Toast.makeText(getActivity().getApplicationContext(),"You have to have at least 15 DKK to start trip!", Toast.LENGTH_LONG).show();
                 }
 
-//            HistoryDB mHistoryDB = new HistoryDB();
-//                mHistoryDB.addTrip(new History(1,2,999.0,SaveSharedPreference.getUserName(getActivity()),"2017-01-01 -12:12","2018-01-01-00"));
-//                mHistoryDB.addTrip(new History(2,3,500,SaveSharedPreference.getUserName(getActivity()),"2018-01-01 -12:12","2018-01-01-00"));
-
-                testView.setText("CREDIT: " + SaveSharedPreference.getCredit(getActivity()));
-
-//                count = 0;
-
-
 
             }
         });
@@ -126,12 +133,6 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
                 1);
         beaconManager.setForegroundScanPeriod(TimeUnit.SECONDS.toMillis(1),
                 1);
-        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
-            @Override
-            public void onServiceReady() {
-                beaconManager.startRanging(region);
-            }
-        });
 
         beaconManager.setRangingListener(new BeaconManager.BeaconRangingListener() {
             @Override
@@ -270,10 +271,6 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
 
             }
             whichLocation(emptyList.get(index));
-            testView.setText("Biggest power "+ emptyList.get(index).getFloor() + " count " + count);
-
-
-
 
         }
 
@@ -285,7 +282,9 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
 
         if (checkedInLocation==null && checkedOutLocation ==null && !checkInUpdated){
             updateLocation(beacon,"CheckIn");
-            checkInTime = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+
+            checkInTime =getTime();
+                    //new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
         }
         else if (checkedInLocation!=null && checkedOutLocation==null && checkedInLocation.getFloor() != beacon.getFloor()){
 
@@ -356,7 +355,9 @@ Double tripPrice = station.getPrice();
     private void updateHistoryTable(Integer start, Integer end, double price){
 
         HistoryDB mHistoryDB = new HistoryDB();
-        mHistoryDB.addTrip(new History(start,end,price,SaveSharedPreference.getUserName(getActivity()),checkInTime,new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime())));
+
+
+        mHistoryDB.addTrip(new History(start,end,price,SaveSharedPreference.getUserName(getActivity()),checkInTime,getTime()));
 
     }
 
@@ -370,6 +371,20 @@ Double tripPrice = station.getPrice();
         checkOutloc.setText("reset");
         count = 0;
         readBeacons = false;
+        startTripBtn.setEnabled(true);
+
+    }
+
+    private String getTime(){
+
+        //time
+        Calendar c = Calendar.getInstance();
+        String date = c.getTime().toString();
+        String partTime = date.substring(3,19);
+        String year = date.substring(30,34);
+        String fullTime = year + " "+partTime;
+
+        return fullTime;
 
     }
 

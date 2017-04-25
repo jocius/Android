@@ -61,6 +61,8 @@ public class UserDB {
                 if (rows.size() > 0) rows.get(0).deleteFromRealm();
             }});
     }
+
+
     // Fill database for testing purposes
     private UserDB(Context context) {
     /*Hack to add contents to an empty database */
@@ -112,6 +114,21 @@ public class UserDB {
             realm.beginTransaction();
 
             user.setCredit(user.getCredit() - credit);
+            realm.commitTransaction();
+            return true;
+        }
+        return false;
+
+    }
+    public boolean editUser(String username, String newPassword){
+
+
+        User user = realm.where(User.class).equalTo("mUsername",username).findFirst();
+
+        //if user exist charge him
+        if (user!=null) {
+            realm.beginTransaction();
+            user.setPassword(newPassword);
             realm.commitTransaction();
             return true;
         }

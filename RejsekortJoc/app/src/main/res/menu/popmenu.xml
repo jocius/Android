@@ -2,13 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
 >
 
-    <item
-        android:id="@+id/loggOut"
-        android:title="Logg OUT"/>
 
+
+    <item
+        android:id="@+id/toUserInfo"
+        android:title="User Information"/>
     <item
         android:id="@+id/addMoney"
         android:title="Add money to Account"/>
+
+    <item
+        android:id="@+id/loggOut"
+        android:title="Logg OUT"/>
 
 
 
