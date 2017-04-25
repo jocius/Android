@@ -17,11 +17,12 @@ import joc.rejsekortjoc.Fragments.checkInOutFragment;
 import joc.rejsekortjoc.Fragments.updateBalanceFragment;
 import joc.rejsekortjoc.Other.SaveSharedPreference;
 
-public class MenuActivity extends FragmentActivity implements updateBalanceFragment.toActivity {
+public class MenuActivity extends FragmentActivity implements updateBalanceFragment.toActivity,checkInOutFragment.toActivity2 {
 
 
 
     private Fragment fragmentUserData;
+    private Fragment fragmentTripData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +103,16 @@ public class MenuActivity extends FragmentActivity implements updateBalanceFragm
         fragmentUserData= fm2.findFragmentById(R.id.userDataInMenuFragment);
 
         if(fragmentUserData!=null){((UserDataFragment) fragmentUserData).updateBalance();}
+
+    }
+
+    @Override
+    public void stateChange() {
+
+        FragmentManager fm2 = getSupportFragmentManager();
+        fragmentTripData= fm2.findFragmentById(R.id.tripListInMeniuFragmentContainer);
+
+        if(fragmentTripData!=null){((TripHistoryFragment) fragmentTripData).stateChange();}
 
     }
 

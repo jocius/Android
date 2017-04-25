@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -46,7 +47,9 @@ public class TripHistoryFragment extends android.support.v4.app.Fragment {
         History history = new History();
 
         mListView = (ListView) v.findViewById(R.id.tripHistory_list_view);
-
+        List<String> list2 = new ArrayList<>();
+        list2.add("Kurwa");
+        list2.add("dwikurwos");
         adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1, history.toList(mHistoryDB.getTrips(SaveSharedPreference.getUserName(getActivity()))));
         mListView.setAdapter(adapter);
 
@@ -65,5 +68,13 @@ public class TripHistoryFragment extends android.support.v4.app.Fragment {
 
 
 
-    public void stateChange() { adapter.notifyDataSetChanged(); }
+    public void stateChange() {
+        //for this part it would be enough just adapter.notifyDataSetChanged();, however for some reasons,
+        //it doesn't, there fore i have to reset adapter...
+        History history = new History();
+        adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1, history.toList(mHistoryDB.getTrips(SaveSharedPreference.getUserName(getActivity()))));
+        mListView.setAdapter(adapter);
+        adapter.notifyDataSetInvalidated();
+        adapter.notifyDataSetChanged();
+    }
 }

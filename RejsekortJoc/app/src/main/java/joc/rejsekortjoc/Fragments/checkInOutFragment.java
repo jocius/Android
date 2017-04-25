@@ -48,7 +48,7 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
 
     private static UserDB mUserDB;
 
-
+    private boolean readBeacons = false;
     //beacon handling
     private BeaconInfo checkedInLocation=null;
     private boolean checkInUpdated = false;
@@ -60,6 +60,7 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
     private Integer count = 0;
 
 
+    public interface toActivity2 { public void stateChange(); }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,18 +88,16 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
     });
 
 
+
         startTripBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
+
                 //minimum trip cost is 15DKK, if it is less, user cannot start trip
                 if (Double.parseDouble(SaveSharedPreference.getCredit(getActivity()))> 15){
-                    beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
-                        @Override
-                        public void onServiceReady() {
-                            beaconManager.startRanging(region);
-                        }
-                    });
+
                     startTripBtn.setEnabled(false);
+                    readBeacons = true;
                     Toast.makeText(getActivity().getApplicationContext(),"Trip has started...Looking for beacons", Toast.LENGTH_LONG).show();
                 }
                 else {
@@ -127,43 +126,51 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
                 2);
         beaconManager.setForegroundScanPeriod(TimeUnit.SECONDS.toMillis(2),
                 2);
+        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
+            @Override
+            public void onServiceReady() {
+                beaconManager.startRanging(region);
+            }
+        });
 
         beaconManager.setRangingListener(new BeaconManager.BeaconRangingListener() {
             @Override
             public void onBeaconsDiscovered(BeaconRegion beaconRegion, List<Beacon> list) {
                 count++;
 
-                scanCount++;
-                //after 4 scans, determine, which floor user is
-                if (scanCount==4){
+                if (readBeacons) {
+                    scanCount++;
+                    //after 4 scans, determine, which floor user is
+                    if (scanCount == 1) {
 
-                    if (!beaconList.isEmpty()){startFilter();}
-
-                    scanCount=0;
-                    beaconList = new ArrayList<>();
-
-                }
-                //if receive a beacon, call method for filtering
-                if (list.size()>0){
-                    for (Beacon beacon : list){
-
-                        //restriction just to floor 2 and 5
-                        if (beacon.getMajor()==2 || beacon.getMajor() ==5){
-
-                            //checkIn location is know, then dont read CheckIn location
-                            if (checkedInLocation!=null){
-
-                                if (checkedInLocation.getFloor() != beacon.getMajor()){
-                                    ifExists(beacon);
-                                }
-                            }
-                            else{
-                                ifExists(beacon);
-
-                            }
-
-
+                        if (!beaconList.isEmpty()) {
+                            startFilter();
                         }
+
+                        scanCount = 0;
+                        beaconList = new ArrayList<>();
+
+                    }
+                    //if receive a beacon, call method for filtering
+                    if (list.size() > 0) {
+                        for (Beacon beacon : list) {
+
+                            //restriction just to floor 2 and 5
+                            if (beacon.getMajor() == 4 || beacon.getMajor() == 5) {
+
+                                //checkIn location is know, then dont read CheckIn location
+                                if (checkedInLocation != null) {
+
+                                    if (checkedInLocation.getFloor() != beacon.getMajor()) {
+                                        ifExists(beacon);
+                                    }
+                                } else {
+                                    ifExists(beacon);
+
+                                }
+
+
+                            }
 //                        if (beacon.getMajor()==5){
 //
 //                            checkOutloc.setText("Floor: " + beacon.getMajor() + " room: "+ beacon.getMinor() + " RSS " +beacon.getRssi() + " Counts: "+ scanCount);
@@ -175,13 +182,14 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
 //                            checkInLoc.setText("Floor: " + beacon.getMajor() + " room: "+ beacon.getMinor() + " RSS " +beacon.getRssi() + " Counts: "+ scanCount);
 //                        }
 
+                        }
+
+
                     }
-
-
                 }
-
             }
         });
+
 
         return v;
     }
@@ -336,11 +344,17 @@ Double tripPrice = station.getPrice();
 
                 if (mUserDB.chargeUser(SaveSharedPreference.getUserName(getActivity()),tripPrice)){
 
+                    //update withdrawal
                     ((updateBalanceFragment.toActivity) getActivity()).updateBalance();
-
+                    //update list
+                    ((toActivity2) getActivity()).stateChange();
+                    //message to user, trip finished
                     Toast.makeText(getActivity().getApplicationContext(),"Trip finished from station: " +startStation +" to " + endStation + ". Price: " + tripPrice, Toast.LENGTH_LONG).show();
+                    //reset everything, to start new trip
                     resetEverything();
+                    //enable start trip button
                     startTripBtn.setEnabled(true);
+
 
                 }
             }
@@ -365,6 +379,7 @@ Double tripPrice = station.getPrice();
         checkInLoc.setText("reset");
         checkOutloc.setText("reset");
         count = 0;
+        readBeacons = false;
 
     }
 

@@ -127,7 +127,8 @@ public class UserDataFragment  extends android.support.v4.app.Fragment {
 
     }
 
-    public void updateBalance() { String credits = getCredit();
+    public void updateBalance() {
+        String credits = getCredit();
         mCredit.setText(credits);
         SaveSharedPreference.setCredit(getActivity(),credits); }
 }
