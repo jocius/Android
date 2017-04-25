@@ -122,10 +122,10 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
         beaconManager = new BeaconManager(getActivity());
 
 //// We want the beacons heartbeat to be set at 2 second.
-        beaconManager.setBackgroundScanPeriod(TimeUnit.SECONDS.toMillis(2),
-                2);
-        beaconManager.setForegroundScanPeriod(TimeUnit.SECONDS.toMillis(2),
-                2);
+        beaconManager.setBackgroundScanPeriod(TimeUnit.SECONDS.toMillis(1),
+                1);
+        beaconManager.setForegroundScanPeriod(TimeUnit.SECONDS.toMillis(1),
+                1);
         beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
             @Override
             public void onServiceReady() {
@@ -141,7 +141,7 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
                 if (readBeacons) {
                     scanCount++;
                     //after 4 scans, determine, which floor user is
-                    if (scanCount == 1) {
+                    if (scanCount == 2) {
 
                         if (!beaconList.isEmpty()) {
                             startFilter();
@@ -156,7 +156,7 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
                         for (Beacon beacon : list) {
 
                             //restriction just to floor 2 and 5
-                            if (beacon.getMajor() == 4 || beacon.getMajor() == 5) {
+                            if (beacon.getMajor() == 2 || beacon.getMajor() == 5) {
 
                                 //checkIn location is know, then dont read CheckIn location
                                 if (checkedInLocation != null) {
@@ -171,16 +171,6 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
 
 
                             }
-//                        if (beacon.getMajor()==5){
-//
-//                            checkOutloc.setText("Floor: " + beacon.getMajor() + " room: "+ beacon.getMinor() + " RSS " +beacon.getRssi() + " Counts: "+ scanCount);
-//
-//                        }
-//                        if (beacon.getMajor()==2){
-//
-//
-//                            checkInLoc.setText("Floor: " + beacon.getMajor() + " room: "+ beacon.getMinor() + " RSS " +beacon.getRssi() + " Counts: "+ scanCount);
-//                        }
 
                         }
 

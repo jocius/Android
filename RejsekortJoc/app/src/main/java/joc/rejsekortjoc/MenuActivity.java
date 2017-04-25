@@ -2,6 +2,7 @@ package joc.rejsekortjoc;
 
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -33,31 +34,34 @@ public class MenuActivity extends FragmentActivity implements updateBalanceFragm
 
 
 
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+
+            FragmentManager fm = getSupportFragmentManager();
+            Fragment fragment = fm.findFragmentById(R.id.userDataInMenuFragment);
+            if (fragment == null) {
+                fragment = new UserDataFragment();
+                fm.beginTransaction()
+                        .add(R.id.userDataInMenuFragment, fragment)
+                        .commit(); }
 
 
+            Fragment fragment2 = fm.findFragmentById(R.id.chekInOutFragment);
+            if (fragment2 == null) {
+                fragment2 = new checkInOutFragment();
+                fm.beginTransaction()
+                        .add(R.id.chekInOutFragment, fragment2)
+                        .commit(); }
 
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.userDataInMenuFragment);
-        if (fragment == null) {
-            fragment = new UserDataFragment();
-            fm.beginTransaction()
-                    .add(R.id.userDataInMenuFragment, fragment)
-                    .commit(); }
+            Fragment fragment3 = fm.findFragmentById(R.id.tripListInMeniuFragmentContainer);
+            if (fragment3 == null) {
+                fragment3 = new TripHistoryFragment();
+                fm.beginTransaction()
+                        .add(R.id.tripListInMeniuFragmentContainer, fragment3)
+                        .commit(); }
 
 
-        Fragment fragment2 = fm.findFragmentById(R.id.chekInOutFragment);
-        if (fragment2 == null) {
-            fragment2 = new checkInOutFragment();
-            fm.beginTransaction()
-                    .add(R.id.chekInOutFragment, fragment2)
-                    .commit(); }
+        }
 
-        Fragment fragment3 = fm.findFragmentById(R.id.tripListInMeniuFragmentContainer);
-        if (fragment3 == null) {
-            fragment3 = new TripHistoryFragment();
-            fm.beginTransaction()
-                    .add(R.id.tripListInMeniuFragmentContainer, fragment3)
-                    .commit(); }
 
 
 
