@@ -100,17 +100,7 @@ public class updateBalanceFragment  extends android.support.v4.app.Fragment {
 
         return v;
     }
-
-
-
-//    public void updateFragment() {
-////        FragmentManager fm2 = getSupportFragmentManager();
-////        mUserDataAccFragment = fm2.findFragmentById(R.id.userDataInAccFragment);
-////        ((UserDataFragment) mUserDataAccFragment).updateCredit();
-//
-//    }
-
-
+    
 
 
 }

@@ -10,6 +10,8 @@ import android.os.Bundle;
 
 
 import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
+
+import joc.rejsekortjoc.Fragments.TripHistoryFragment;
 import joc.rejsekortjoc.Fragments.UserDataFragment;
 import joc.rejsekortjoc.Fragments.checkInOutFragment;
 import joc.rejsekortjoc.Fragments.updateBalanceFragment;
@@ -41,12 +43,19 @@ public class MenuActivity extends FragmentActivity implements updateBalanceFragm
                     .add(R.id.userDataInMenuFragment, fragment)
                     .commit(); }
 
-        FragmentManager fm2 = getSupportFragmentManager();
+
         Fragment fragment2 = fm.findFragmentById(R.id.chekInOutFragment);
         if (fragment2 == null) {
             fragment2 = new checkInOutFragment();
             fm.beginTransaction()
                     .add(R.id.chekInOutFragment, fragment2)
+                    .commit(); }
+
+        Fragment fragment3 = fm.findFragmentById(R.id.tripListInMeniuFragmentContainer);
+        if (fragment3 == null) {
+            fragment3 = new TripHistoryFragment();
+            fm.beginTransaction()
+                    .add(R.id.tripListInMeniuFragmentContainer, fragment3)
                     .commit(); }
 
 
