@@ -52,6 +52,10 @@ public class RegisterActivity extends AppCompatActivity {
 
 
                 }
+                else{
+                    Toast.makeText(getApplicationContext(),"Values are empty", Toast.LENGTH_LONG).show();
+
+                }
             }
         });
     }

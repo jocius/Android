@@ -55,7 +55,7 @@ public class ChangeUserFragment extends android.support.v4.app.Fragment  {
                     pswField.setText("");
                 }
                 else {
-                    Toast.makeText(getActivity(),"Password cannot be less than 3 characters", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"Password cannot be less than 1 characters", Toast.LENGTH_LONG).show();
 
                 }
             }

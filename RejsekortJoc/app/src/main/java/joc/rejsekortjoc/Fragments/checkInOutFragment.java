@@ -62,12 +62,12 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
 
 
     public interface toActivity2 { public void stateChange(); }
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-    }
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//
+//
+//    }
 
     @Override
     public void onResume() {
@@ -86,7 +86,7 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.checkinout_fragment, container, false);
-
+        super.onCreate(savedInstanceState);
         mUserDB = mUserDB.get(getActivity());
         checkOutloc = (TextView) v.findViewById(R.id.checkedOutLocation);
         checkInLoc = (TextView) v.findViewById(R.id.checkedInLocation);
@@ -304,12 +304,12 @@ public class checkInOutFragment  extends android.support.v4.app.Fragment {
         switch (type){
 
             case "CheckIn":
-                checkInLoc.setText(beacon.getFloor() +" Floor"+ " count "+count);
+                checkInLoc.setText(beacon.getFloor() +" Floor");
                 checkedInLocation=beacon;
                 checkInUpdated = true;
             break;
             case "CheckOut":
-                checkOutloc.setText(beacon.getFloor()  +" Floor"+ " count "+count);
+                checkOutloc.setText(beacon.getFloor()  +" Floor");
                 checkedOutLocation=beacon;
             break;
 

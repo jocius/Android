@@ -87,6 +87,10 @@ public class updateBalanceFragment  extends android.support.v4.app.Fragment {
                     }
 
                 }
+                else {
+
+                    Toast.makeText(getActivity().getApplicationContext(),"Please enter all values", Toast.LENGTH_LONG).show();
+                }
 
 
             }

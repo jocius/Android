@@ -47,22 +47,10 @@ public class TripHistoryFragment extends android.support.v4.app.Fragment {
         History history = new History();
 
         mListView = (ListView) v.findViewById(R.id.tripHistory_list_view);
-        List<String> list2 = new ArrayList<>();
-        list2.add("Kurwa");
-        list2.add("dwikurwos");
+
         adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1, history.toList(mHistoryDB.getTrips(SaveSharedPreference.getUserName(getActivity()))));
         mListView.setAdapter(adapter);
 
-
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-
-            }
-
-
-
-        });
         return v;
     }
 
